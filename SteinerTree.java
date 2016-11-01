@@ -31,7 +31,6 @@ import steinerTree.SteinerTreeTester;
 
 public class SteinerTree
 {
-
 	public static ArrayList<Integer> reverse(ArrayList<Integer> list) {
 	    if(list.size() > 1) {                   
 	        int value = list.remove(0);
@@ -40,7 +39,6 @@ public class SteinerTree
 	    }
 	    return list;
 	}
-
 	
 	public static ArrayList<Integer> constPath(int start, int end, int [][] path){
 		ArrayList<Integer> pathList = new ArrayList<Integer>();
@@ -54,7 +52,7 @@ public class SteinerTree
 		}
 		return pathList;
 	}
-	
+
 	public static int [][] buildInitPath(int [][] adj){
 		int n = adj[0].length;
 		int infinity = Integer.MAX_VALUE;
@@ -73,8 +71,7 @@ public class SteinerTree
 	return p;
 	}
 	
-	public static Vertex [] sort(Vertex [] arr){
-		
+	public static Vertex [] sort(Vertex [] arr){	
 		for (int i = 0; i < arr.length; i++) {
 `	        for (int j = i + 1; j < arr.length; j++) {
 	            Vertex tmp;
@@ -189,6 +186,21 @@ public class SteinerTree
 		return A;
 	}
 	
+	/************************************************************
+	Method:
+	Input:
+	Output:
+	Description:
+	*************************************************************/
+	
+	/************************************************************
+	Method: buildAdjMatrix
+	Input: Graph g to build matrix on, ArrayList of targets
+	Output: An adjacency matrix (adj) representing the graph
+	Notes:
+		adj[i][j] == 0 if node i & j do not connect OR i == j
+		adj[i][j] == the weight of the edge between node i & j, if they connect
+	*************************************************************/
 	public static int [][] buildAdjMatrix(Graph g, ArrayList<Vertex> targets){
 		int infinity = Integer.MAX_VALUE;
 		int num_targ = targets.size();
@@ -245,6 +257,12 @@ public class SteinerTree
 		return adj;
 	}
 	
+	/************************************************************
+	Method:
+	Input:
+	Output:
+	Description:
+	*************************************************************/
 	public static void printTable(int [][] table){
 		int infinity = Integer.MAX_VALUE;
 		int n = table[0].length;
@@ -269,8 +287,7 @@ public class SteinerTree
 					System.out.print("I ");
 				}
 				else {
-					System.out.print(table[i][j] + " ");
-			
+					System.out.print(table[i][j] + " ");	
 				}
 			}
 			System.out.println();
