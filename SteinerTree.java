@@ -76,7 +76,7 @@ public class SteinerTree
 	public static Vertex [] sort(Vertex [] arr){
 		
 		for (int i = 0; i < arr.length; i++) {
-	        for (int j = i + 1; j < arr.length; j++) {
+`	        for (int j = i + 1; j < arr.length; j++) {
 	            Vertex tmp;
 	            if (arr[i].getId() > arr[j].getId()) {
 	                tmp = arr[i];
@@ -96,7 +96,7 @@ public class SteinerTree
 		int i;
 		int j;
 		int num_vertices = SP[0].length;
-	    int [] tarInd = new int [targets.size()];
+	    	int [] tarInd = new int [targets.size()];
 	    
 		Vertex [] vert = new Vertex[num_vertices];
 		Iterator <Vertex> vtr = g.vertexIterator();
@@ -120,19 +120,8 @@ public class SteinerTree
 		for (k = 0; k < tar.length; k++){
 			tarInd[k] = tar[k].getId();
 		}
-	
 		
 		int dist = 0;
-		
-		/*test*/
-/*
-		int a =  SP[tarInd[0]][tarInd[1]];
-		int b = SP[tarInd[1]][tarInd[2]]; 
-		int c =  SP[tarInd[2]][tarInd[3]];
-		dist = a+b+c;
-	
-		*/
-		
 		
 		/*find A path*/
 		int distance = 0;
@@ -143,7 +132,6 @@ public class SteinerTree
 		}
 		
 		/*Rebuild Path*/
-		
 		ArrayList<Integer> returnPath = new ArrayList<Integer>();
 		for (i = 0; i < tar.length - 1; i++){
 			int st = tarInd[i];
@@ -159,26 +147,18 @@ public class SteinerTree
 		/*remove duplicates*/
 		Set<Integer> s = new LinkedHashSet<Integer>(pathList);
 		pathList.clear();
-		
 		Iterator itr = s.iterator();
 		
 		while(itr.hasNext()){
 			pathList.add((Integer) itr.next());
 		}
 		
-		
-		//int start = tarInd[0];
-		//int fin = tarInd[tarInd.length - 1];
-		//pathList = constPath(start,fin, path);
 		/*Iterate through every target*/
-		
-		
 		System.out.println();
 		return distance;
 	}
 	
 	public static int [][] buildShortestPathTable(int [][] adj, int [][] path){
-		
 		int i;
 		int j;
 		int k;
@@ -192,11 +172,9 @@ public class SteinerTree
 			A[i] = adj[i].clone();
 		}
 	
-		
 		for (k = 0; k < n; k++){
 			for (i = 0; i < n; i++){
 				for (j = 0; j < n; j++){
-					
 					if (A[i][k] == infinity || A[k][j] == infinity){
 						continue;
 					}
@@ -205,20 +183,11 @@ public class SteinerTree
 						A[i][j] = A[i][k] + A[k][j];
 						path[i][j] = path[k][j];
 					}
-					
 				}
 			}
 		}
-		
-		/*end triple loop*/
-		//printTable(A);
 		return A;
-		
-		}
-		
-
-
-	
+	}
 	
 	public static int [][] buildAdjMatrix(Graph g, ArrayList<Vertex> targets){
 		int infinity = Integer.MAX_VALUE;
@@ -226,10 +195,8 @@ public class SteinerTree
 		int num_vertices = g.numVertices();
 		int [][] adj = new int [num_vertices][num_vertices];
 		
-		
-		// sort each vertex's edges shortest first, this should help a little
+		// sort each vertex's edges shortest first
 		g.sortVertexEdgeLists(new Graph.CompareEdgesSmallestFirst());
-		
 		
 		/*make an Array of the vertices*/
 		Vertex [] vert = new Vertex[num_vertices];
@@ -238,7 +205,7 @@ public class SteinerTree
 			vert[k] = vtr.next();
 		}
 		
-		/*reser the iterator*/
+		/*reset the iterator*/
 		vtr = g.vertexIterator();
 		/*For each vertex in g*/
 		for (int i = 0; i < num_vertices; i++){
@@ -246,12 +213,10 @@ public class SteinerTree
 			/*check the other vertices*/
 			for (int j = 0; j < num_vertices; j++){
 				Vertex v2 = vert[j];
-				
 				/*CASE: v is the same as V2.  */
 				if (v.equals(v2)){
 					adj[i][j] = 0;
 				}
-				
 				/*check to see if v can reach v2*/
 				else {
 					/*iterate over v's edges*/
@@ -260,19 +225,13 @@ public class SteinerTree
 					v.sortEdges(new Graph.CompareEdgesSmallestFirst());
 					while (evtr.hasNext()){
 						Edge e = evtr.next();
-			
 						Vertex v3 = e.getOppositeVertexOf(v);
-						
 						if (v3.equals(v2)){
 							flag = 1;
 							adj[i][j] = e.getWeight();
 							break;
 						}
-						
-						
-						
 					}
-					/*end while loop*/
 					
 					/*check to see if these vertices aren't adj*/
 					if (flag == 0){
@@ -283,12 +242,6 @@ public class SteinerTree
 			
 			}
 		}
-		
-		
-		/*Determine which other nodes it connects to */
-		
-		//printTable(adj);
-		/*return */
 		return adj;
 	}
 	
@@ -299,9 +252,7 @@ public class SteinerTree
 		int j;
 		char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 		
-		/*print horizontal label*/
 		for (i = 0; i < n; i++){
-			
 			if ( i ==0){
 				System.out.print("  A ");
 			}
@@ -326,29 +277,17 @@ public class SteinerTree
 		}
 		
 	}
-	
-	
-	
-	
 	// Simple example routine that just does a depth first search until it reaches
 	// all of the target vertices.
 	public static int steinerTree(Graph g, ArrayList<Vertex> targets)						
-	{	
-		
+	{			
 		int [][] adj = buildAdjMatrix(g,targets);
 		int [][] path =buildInitPath(adj);
 		int [][] SP = buildShortestPathTable(adj,path);
 		ArrayList<Integer> pathList = new ArrayList<Integer>();
 		int dist = findShortestPath(SP,targets,g,pathList, path);
 		g.sortVertexEdgeLists(new Graph.CompareEdgesSmallestFirst());
-
 		ArrayList<Integer> path1 = constPath(0,5,path);
-		
-		
-		
-		 
-		
-		
 		
 		System.out.println();
 		
@@ -372,12 +311,13 @@ public class SteinerTree
 		}
 		
 		ArrayList<Integer> visited = new ArrayList<Integer>();
-		/*initialize!!!*/
+		
+		/*initialize the targets*/
 		Vertex firstTar = targets.get(0);
 		visited.add(firstTar.getId());
 		
-		/*array of vertices*/
 		Iterator<Vertex> vitr = g.vertexIterator();
+		/*array of vertexes*/
 		Vertex [] vertexArr = new Vertex [g.numVertices()];
 		
 		Vertex v1;
@@ -391,43 +331,13 @@ public class SteinerTree
 		int retDist = 0;
 		
 		for (int i = 0; i < targets.size()-1; i++){
-			boolean sheep = false;
 			int [] sourceSink = new int [2];
 			ArrayList<Integer> thePath = new ArrayList<Integer>();
 			curDist = prims(SP,path,tarInd,visited,sourceSink);
 			retDist = retDist  + curDist;
 			thePath = constPath( sourceSink[0],sourceSink[1], path);
-			drawPath(g, sourceSink[0], sourceSink[1], thePath, vertexArr);
-			
-			if (sheep == true){
-				break;
-			}
-			
+			drawPath(g, sourceSink[0], sourceSink[1], thePath, vertexArr);			
 		}
-		
-		//int [] sourceSinkD = new int [2];
-		//prims(SP, path, tarInd, visited, sourceSinkD);
-		
-		
-		//Graph g, int source, int sink, ArrayList<Integer> path, Vertex [] vertList
-		
-		//prims(SP, path, tarInd, visited, sourceSinkD);
-		
-		
-		
-		/*
-		int [] sourceSink1 = prims(SP, path,  tarInd, visited);
-		int [] sourceSink2 = prims(SP, path,  tarInd, visited);
-		int [] sourceSink3 = prims(SP, path,  tarInd, visited);
-
-		*/
-		
-		
-		//magic(SP, path, tarInd);
-		
-		
-	
-		
 		return retDist;
 		
 		
